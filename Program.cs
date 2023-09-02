@@ -18,6 +18,11 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
+builder.Services.AddControllersWithViews().AddRazorPagesOptions(options =>
+{
+    options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "");
+});
+
 
 var app = builder.Build();
 
@@ -44,7 +49,8 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages();
+
+app.MapRazorPages(); 
 
 app.Run();
 
@@ -54,6 +60,11 @@ app.Run();
  In Visual Studio, you can use the Package Manager Console to apply pending migrations to the database:
 PM> Add-Migration Initial
 PM> Update-Database
+
+OR
+EntityFrameworkCore\Add-Migration Initial
+EntityFrameworkCore\Update-Database
+
 Alternatively, you can apply pending migrations from a command prompt at your project directory:
 
 > dotnet ef database update
@@ -61,4 +72,8 @@ Alternatively, you can apply pending migrations from a command prompt at your pr
 To Remove DB
 Drop-Database
 remove-migration -force
+
+
+Add-Migration profile123
+Update-Database
  */

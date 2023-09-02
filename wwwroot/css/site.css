@@ -374,13 +374,13 @@ textarea {
     line-height: unset;
 }
 
-.btn {
+/*.btn {
     height: 42px;
     margin-top: 8px;
     margin-right: 8px;
     padding: 8px 16px 4px 16px;
     background-color: white;
-}
+}*/
 
 .btn-success {
     font-weight: 600;
@@ -1333,4 +1333,8 @@ textarea {
 .k-datepicker {
     font-size: 1.125rem;
     height: 45px;
+}
+
+.form-floating{
+    padding:3px 0;
 }

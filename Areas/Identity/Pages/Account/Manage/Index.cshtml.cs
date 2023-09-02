@@ -87,6 +87,7 @@ namespace IUBAlumniUSA.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostAsync()
         {
+            
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
@@ -112,7 +113,7 @@ namespace IUBAlumniUSA.Areas.Identity.Pages.Account.Manage
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
-            return RedirectToPage();
+            return RedirectToPage("Index","Home");
         }
     }
 }
