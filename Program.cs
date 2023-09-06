@@ -18,10 +18,11 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
-builder.Services.AddControllersWithViews().AddRazorPagesOptions(options =>
-{
-    options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "");
-});
+
+//builder.Services.AddControllersWithViews().AddRazorPagesOptions(options =>
+//{
+//    options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "");
+//});
 
 
 var app = builder.Build();

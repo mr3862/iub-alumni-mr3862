@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using IUBAlumniUSA.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace IUBAlumniUSA.Areas.Identity.Pages.Account
 {
@@ -21,11 +23,13 @@ namespace IUBAlumniUSA.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly ApplicationDbContext _dbContext;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger, ApplicationDbContext dbContext)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _dbContext = dbContext;
         }
 
         /// <summary>
@@ -114,8 +118,21 @@ namespace IUBAlumniUSA.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    returnUrl = Url.Action("Index", "Home", new { Area = "" });
                     _logger.LogInformation("User logged in.");
+
+                    var user = await _signInManager.UserManager.FindByNameAsync(Input.Email);
+
+                    Repository repo = new Repository(_dbContext);
+                    if (!repo.IsProfileExists(user.Id))
+                    {
+                        returnUrl = Url.Action("ForgotPassword", "Account" );
+                        return RedirectToPage("./Manage/Index");
+                    }
+                    else
+                    {
+                        returnUrl = Url.Action("Index", "Home", new { Area = "" });
+                    }
+                    
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
