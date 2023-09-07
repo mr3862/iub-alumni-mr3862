@@ -29,12 +29,12 @@ namespace IUBAlumniUSA.Data
             base.OnModelCreating(builder);
             //seed data
 
-            var roleId = "ffffffff-eeee-dddd-cccc-bbbbbbbbbbb1";
-            var userId = "ffffffff-eeee-dddd-cccc-bbbbbbbbbbb2";
+            var roleId = "1";// "ffffffff-eeee-dddd-cccc-bbbbbbbbbbb1";
+            var userId = "1";//"ffffffff-eeee-dddd-cccc-bbbbbbbbbbb2";
             builder.Entity<IdentityRole>().HasData(
-                new IdentityRole { Id = roleId, Name = Utility.Roles.SuperAdmin.ToString() },
-                new IdentityRole { Name = Utility.Roles.Admin.ToString() },
-                new IdentityRole { Name = Utility.Roles.Basic.ToString() }
+                new IdentityRole { Id = roleId, Name = Utility.Roles.SuperAdmin.ToString(),NormalizedName = Utility.Roles.SuperAdmin.ToString().ToUpper() },
+                new IdentityRole { Name = Utility.Roles.Admin.ToString(), NormalizedName = Utility.Roles.Admin.ToString().ToUpper() },
+                new IdentityRole { Name = Utility.Roles.Basic.ToString(), NormalizedName = Utility.Roles.Basic.ToString().ToUpper() }
                 );
 
             var supUser = new IdentityUser
