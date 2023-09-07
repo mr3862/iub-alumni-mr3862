@@ -12,7 +12,7 @@ public class Repository
     public bool IsProfileExists(string userId)
     {
 
-        var prof = _dbContext.Profiles.Where(p => p.IdentityUser.Id == userId).FirstOrDefault();
+        var prof = _dbContext.Profiles.Where(p => p.IdentityUserId == userId).FirstOrDefault();
 
         if (prof != null)
             return true;

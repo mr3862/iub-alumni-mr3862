@@ -2,7 +2,9 @@
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
-
+@{
+    
+}
 @if (SignInManager.IsSignedIn(User) && User.IsInRole(Utility.Roles.SuperAdmin.ToString()))
 {
     <li class="nav-item">

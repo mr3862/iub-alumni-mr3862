@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IUBAlumniUSA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230907131848_superUser3")]
-    partial class superUser3
+    [Migration("20230907212702_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,13 +32,39 @@ namespace IUBAlumniUSA.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("Address")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int?>("BatchTerm")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BatchYear")
+                        .HasColumnType("int");
+
+                    b.Property<string>("City")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Country")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Degree")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("IdentityUserId")
-                        .HasColumnType("nvarchar(450)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -46,18 +72,30 @@ namespace IUBAlumniUSA.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<byte[]>("ProfilePicture")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("ProvinceState")
+                        .HasMaxLength(2)
+                        .HasColumnType("nvarchar(2)");
+
+                    b.Property<string>("ZipPostalCode")
+                        .HasMaxLength(7)
+                        .HasColumnType("nvarchar(7)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdentityUserId");
-
                     b.ToTable("Profiles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BatchYear = 1993,
+                            FirstName = "Super",
+                            IdentityUserId = "1",
+                            IsApproved = true,
+                            LastName = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -89,21 +127,24 @@ namespace IUBAlumniUSA.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ffffffff-eeee-dddd-cccc-bbbbbbbbbbb1",
-                            ConcurrencyStamp = "2fca20ac-0725-499d-9b92-634ce0559ed0",
-                            Name = "SuperAdmin"
+                            Id = "1",
+                            ConcurrencyStamp = "e341de80-a817-4eb4-9d54-2bb005bfa16d",
+                            Name = "SuperAdmin",
+                            NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "99886bd1-367a-489f-9164-5ee2faaaa9ed",
-                            ConcurrencyStamp = "58bc13e8-3eb2-476f-8721-31952f4a903d",
-                            Name = "Admin"
+                            Id = "a83a97e4-f076-44a7-b4ef-2e8d0dd78b09",
+                            ConcurrencyStamp = "52eaf9ec-f05a-497b-955a-e061b5756fdd",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "b70d247e-50ad-44f1-8510-ac10b4045322",
-                            ConcurrencyStamp = "a42e18bd-556e-47cc-a24c-e7b57aecce2c",
-                            Name = "Basic"
+                            Id = "de1d0eee-ea0e-4ba7-88b1-783f6115f899",
+                            ConcurrencyStamp = "e5b66914-b9b0-4c6e-bdeb-5df83908a090",
+                            Name = "Basic",
+                            NormalizedName = "BASIC"
                         });
                 });
 
@@ -199,15 +240,17 @@ namespace IUBAlumniUSA.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ffffffff-eeee-dddd-cccc-bbbbbbbbbbb2",
+                            Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8a738ab2-72ba-4a3a-9082-5ed87949b48b",
+                            ConcurrencyStamp = "6c1e5bde-7b88-4a91-9c3b-2d61a8bf87f3",
                             Email = "SuperAdmin@aaina.org",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEBH32tVswhILXbqo03WP4A7gmaw1DE9EPNiygtxx/X+J0ZDJys3m0KF+6WIJZfU1IQ==",
+                            NormalizedEmail = "SUPERADMIN@AAINA.ORG",
+                            NormalizedUserName = "SUPERADMIN@AAINA.ORG",
+                            PasswordHash = "AQAAAAEAACcQAAAAECe3L5x4GmA+796avRJXNBfmZtnrSWtlzdEzEV4jra1aWxqB29YiSOHINH6cI9igGg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ea42358a-9b43-477e-b6e1-070406073b6e",
+                            SecurityStamp = "22960337-b653-4a1a-8e46-6bfce98fc2f1",
                             TwoFactorEnabled = false,
                             UserName = "SuperAdmin@aaina.org"
                         });
@@ -279,8 +322,8 @@ namespace IUBAlumniUSA.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "ffffffff-eeee-dddd-cccc-bbbbbbbbbbb2",
-                            RoleId = "ffffffff-eeee-dddd-cccc-bbbbbbbbbbb1"
+                            UserId = "1",
+                            RoleId = "1"
                         });
                 });
 
@@ -303,15 +346,6 @@ namespace IUBAlumniUSA.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("IUBAlumniUSA.Models.Profile", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
-                        .WithMany()
-                        .HasForeignKey("IdentityUserId");
-
-                    b.Navigation("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

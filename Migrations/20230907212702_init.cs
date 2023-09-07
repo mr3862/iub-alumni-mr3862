@@ -49,6 +49,31 @@ namespace IUBAlumniUSA.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Profiles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    BatchYear = table.Column<int>(type: "int", nullable: false),
+                    BatchTerm = table.Column<int>(type: "int", nullable: true),
+                    Degree = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    Country = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ProvinceState = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: true),
+                    ZipPostalCode = table.Column<string>(type: "nvarchar(7)", maxLength: 7, nullable: true),
+                    ProfilePicture = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    IsApproved = table.Column<bool>(type: "bit", nullable: false),
+                    IdentityUserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Profiles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -154,42 +179,30 @@ namespace IUBAlumniUSA.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Profiles",
-                columns: table => new
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    State = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProfilePicture = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    IdentityUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Profiles", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Profiles_AspNetUsers_IdentityUserId",
-                        column: x => x.IdentityUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                    { "1", "e341de80-a817-4eb4-9d54-2bb005bfa16d", "SuperAdmin", "SUPERADMIN" },
+                    { "a83a97e4-f076-44a7-b4ef-2e8d0dd78b09", "52eaf9ec-f05a-497b-955a-e061b5756fdd", "Admin", "ADMIN" },
+                    { "de1d0eee-ea0e-4ba7-88b1-783f6115f899", "e5b66914-b9b0-4c6e-bdeb-5df83908a090", "Basic", "BASIC" }
                 });
 
             migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "1", "862f83f9-ddb6-4bd4-a2fc-0bb7f759d722", "SuperAdmin", null });
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "1", 0, "6c1e5bde-7b88-4a91-9c3b-2d61a8bf87f3", "SuperAdmin@aaina.org", true, false, null, "SUPERADMIN@AAINA.ORG", "SUPERADMIN@AAINA.ORG", "AQAAAAEAACcQAAAAECe3L5x4GmA+796avRJXNBfmZtnrSWtlzdEzEV4jra1aWxqB29YiSOHINH6cI9igGg==", null, false, "22960337-b653-4a1a-8e46-6bfce98fc2f1", false, "SuperAdmin@aaina.org" });
 
             migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "2", "469c6552-762c-4315-ba48-6e1814667180", "Admin", null });
+                table: "Profiles",
+                columns: new[] { "Id", "Address", "BatchTerm", "BatchYear", "City", "Country", "Degree", "FirstName", "IdentityUserId", "IsApproved", "LastName", "ProfilePicture", "ProvinceState", "ZipPostalCode" },
+                values: new object[] { 1, null, null, 1993, null, null, null, "Super", "1", true, "Admin", null, null, null });
 
             migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "3", "0ad2c9a6-38b8-4bb0-b1be-eb45d8e82b0c", "Basic", null });
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "1", "1" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -229,11 +242,6 @@ namespace IUBAlumniUSA.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Profiles_IdentityUserId",
-                table: "Profiles",
-                column: "IdentityUserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

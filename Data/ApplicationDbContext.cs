@@ -3,6 +3,7 @@ using IUBAlumniUSA.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 
 namespace IUBAlumniUSA.Data
@@ -51,6 +52,23 @@ namespace IUBAlumniUSA.Data
             builder.Entity<IdentityUser>().HasData(supUser);
             builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string> { UserId = userId, RoleId = roleId });
 
+            var prof = new Profile
+            {
+                Id = 1,
+                FirstName = "Super",
+                LastName = "Admin",
+                BatchYear = 1993,
+               // Degree = "N/A",
+                IsApproved = true,
+               // Address = "N/A",
+               // City = "N/A",
+               // Country = "USA",
+               // ProvinceState = "N/A",
+               // ZipPostalCode = "NA",
+               //// ProfilePicture =null,
+                IdentityUserId = userId
+            };
+            builder.Entity<Profile>().HasData(prof);
         }
         public virtual DbSet<Profile> Profiles { get; set; }
 

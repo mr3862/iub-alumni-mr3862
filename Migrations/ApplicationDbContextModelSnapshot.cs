@@ -30,13 +30,39 @@ namespace IUBAlumniUSA.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("Address")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int?>("BatchTerm")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BatchYear")
+                        .HasColumnType("int");
+
+                    b.Property<string>("City")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Country")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Degree")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("IdentityUserId")
-                        .HasColumnType("nvarchar(450)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -44,18 +70,30 @@ namespace IUBAlumniUSA.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<byte[]>("ProfilePicture")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("ProvinceState")
+                        .HasMaxLength(2)
+                        .HasColumnType("nvarchar(2)");
+
+                    b.Property<string>("ZipPostalCode")
+                        .HasMaxLength(7)
+                        .HasColumnType("nvarchar(7)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdentityUserId");
-
                     b.ToTable("Profiles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BatchYear = 1993,
+                            FirstName = "Super",
+                            IdentityUserId = "1",
+                            IsApproved = true,
+                            LastName = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -88,21 +126,21 @@ namespace IUBAlumniUSA.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "b0aac938-6148-441c-ad7f-4f71a6e5b0de",
+                            ConcurrencyStamp = "e341de80-a817-4eb4-9d54-2bb005bfa16d",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "28f59d73-2cc1-40d6-a9c7-27f0af764b77",
-                            ConcurrencyStamp = "8c11b398-be49-4b2a-980d-6582be7727de",
+                            Id = "a83a97e4-f076-44a7-b4ef-2e8d0dd78b09",
+                            ConcurrencyStamp = "52eaf9ec-f05a-497b-955a-e061b5756fdd",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "ffef4f9d-dcaf-46b6-b63e-32e70d1c0fa9",
-                            ConcurrencyStamp = "c59c0b40-18e6-4911-ab0c-4eeb408e9a9f",
+                            Id = "de1d0eee-ea0e-4ba7-88b1-783f6115f899",
+                            ConcurrencyStamp = "e5b66914-b9b0-4c6e-bdeb-5df83908a090",
                             Name = "Basic",
                             NormalizedName = "BASIC"
                         });
@@ -202,15 +240,15 @@ namespace IUBAlumniUSA.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3031a442-4e88-482e-a688-19097c2ccbe3",
+                            ConcurrencyStamp = "6c1e5bde-7b88-4a91-9c3b-2d61a8bf87f3",
                             Email = "SuperAdmin@aaina.org",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@AAINA.ORG",
                             NormalizedUserName = "SUPERADMIN@AAINA.ORG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOWzRJfcF7E9ZF14zGiFZd82tS0ASZPSLaL6jk0WMGOma/aIJiplnNAamIA9tMIWCw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECe3L5x4GmA+796avRJXNBfmZtnrSWtlzdEzEV4jra1aWxqB29YiSOHINH6cI9igGg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "444e55a5-d72e-4e9a-a33c-a56932e4458a",
+                            SecurityStamp = "22960337-b653-4a1a-8e46-6bfce98fc2f1",
                             TwoFactorEnabled = false,
                             UserName = "SuperAdmin@aaina.org"
                         });
@@ -306,15 +344,6 @@ namespace IUBAlumniUSA.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("IUBAlumniUSA.Models.Profile", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
-                        .WithMany()
-                        .HasForeignKey("IdentityUserId");
-
-                    b.Navigation("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

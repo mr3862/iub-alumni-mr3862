@@ -121,7 +121,7 @@ namespace IUBAlumniUSA.Areas.Identity.Pages.Account
                     _logger.LogInformation("User logged in.");
 
                     var user = await _signInManager.UserManager.FindByNameAsync(Input.Email);
-                   var roles = _signInManager.UserManager.GetRolesAsync(user);
+                   var roles = await _signInManager.UserManager.GetRolesAsync(user);
                    Repository repo = new Repository(_dbContext);
                     if (!repo.IsProfileExists(user.Id))
                     {

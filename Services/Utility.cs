@@ -14,4 +14,12 @@ public static class Utility
         [Description("Basic")]
         Basic
     }
+    public enum Country
+    {
+        [Description("USA")]
+        USA,
+        [Description("Canada")]
+        Canada,
+
+    }
 }
