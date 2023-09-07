@@ -4,6 +4,7 @@ using IUBAlumniUSA.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IUBAlumniUSA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230906222337_superUser")]
+    partial class superUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,20 +89,20 @@ namespace IUBAlumniUSA.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ffffffff-eeee-dddd-cccc-bbbbbbbbbbb1",
-                            ConcurrencyStamp = "31690615-a48e-4d03-a9e1-53c57c11c9ee",
+                            Id = "1",
+                            ConcurrencyStamp = "4d47373a-9676-4209-8c45-b5397db65a8c",
                             Name = "SuperAdmin"
                         },
                         new
                         {
-                            Id = "676847dd-ae48-4e9f-87cc-1ff4df56012d",
-                            ConcurrencyStamp = "d8282871-973e-4e8d-8464-685e136efc82",
+                            Id = "2",
+                            ConcurrencyStamp = "257f536b-c44a-4885-828e-0686cf07c4e3",
                             Name = "Admin"
                         },
                         new
                         {
-                            Id = "66e8d84a-ce79-494b-90ab-9ecfd15e58ab",
-                            ConcurrencyStamp = "207f6cd0-96d1-483b-aed9-30c31c746c95",
+                            Id = "3",
+                            ConcurrencyStamp = "7d7fef40-10de-4882-a934-adc21be70ff0",
                             Name = "Basic"
                         });
                 });
@@ -197,19 +199,17 @@ namespace IUBAlumniUSA.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ffffffff-eeee-dddd-cccc-bbbbbbbbbbb2",
+                            Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5f789e20-4e34-4b27-a672-b50c070a46af",
-                            Email = "SuperAdmin@aaina.org",
+                            ConcurrencyStamp = "fa17d14d-dd97-4471-a8ae-fe8e9929c038",
+                            Email = "superadmin@aaina.org",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
-                            NormalizedEmail = "SUPERADMIN@AAINA.ORG",
-                            NormalizedUserName = "SUPERADMIN@AAINA.ORG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMeILJPr76lxem/5fMOY8dyJYp9t98VE/6vA2snCb5D4aJ+seNHURosT5FYUbcOhnA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "35fd4775-3d9b-4f29-9409-08684c4cf6f8",
+                            PasswordHash = "AQAAAAEAACcQAAAAENa2Pd73gzOK4XymicqT4MJCNJ36YEe+R3Ld6ksnobgztn4euX99fPTEeHvy5Bv01g==",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "293960f4-1450-4208-a215-61b41b9759c7",
                             TwoFactorEnabled = false,
-                            UserName = "SuperAdmin@aaina.org"
+                            UserName = "SuperAdmin"
                         });
                 });
 
@@ -279,8 +279,8 @@ namespace IUBAlumniUSA.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "ffffffff-eeee-dddd-cccc-bbbbbbbbbbb2",
-                            RoleId = "ffffffff-eeee-dddd-cccc-bbbbbbbbbbb1"
+                            UserId = "1",
+                            RoleId = "1"
                         });
                 });
 

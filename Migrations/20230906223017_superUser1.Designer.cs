@@ -4,6 +4,7 @@ using IUBAlumniUSA.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IUBAlumniUSA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230906223017_superUser1")]
+    partial class superUser1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,20 +89,20 @@ namespace IUBAlumniUSA.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ffffffff-eeee-dddd-cccc-bbbbbbbbbbb1",
-                            ConcurrencyStamp = "31690615-a48e-4d03-a9e1-53c57c11c9ee",
+                            Id = "1",
+                            ConcurrencyStamp = "8b7105b5-8264-49c4-9020-b3e223369c26",
                             Name = "SuperAdmin"
                         },
                         new
                         {
-                            Id = "676847dd-ae48-4e9f-87cc-1ff4df56012d",
-                            ConcurrencyStamp = "d8282871-973e-4e8d-8464-685e136efc82",
+                            Id = "2",
+                            ConcurrencyStamp = "50214112-35a2-432f-8529-6ea335820717",
                             Name = "Admin"
                         },
                         new
                         {
-                            Id = "66e8d84a-ce79-494b-90ab-9ecfd15e58ab",
-                            ConcurrencyStamp = "207f6cd0-96d1-483b-aed9-30c31c746c95",
+                            Id = "3",
+                            ConcurrencyStamp = "92d9c4ac-973d-49eb-97c2-e4f1eac76a77",
                             Name = "Basic"
                         });
                 });
@@ -197,17 +199,15 @@ namespace IUBAlumniUSA.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ffffffff-eeee-dddd-cccc-bbbbbbbbbbb2",
+                            Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5f789e20-4e34-4b27-a672-b50c070a46af",
+                            ConcurrencyStamp = "2015c04d-a6b6-44eb-8cf1-9008e679a3ae",
                             Email = "SuperAdmin@aaina.org",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
-                            NormalizedEmail = "SUPERADMIN@AAINA.ORG",
-                            NormalizedUserName = "SUPERADMIN@AAINA.ORG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMeILJPr76lxem/5fMOY8dyJYp9t98VE/6vA2snCb5D4aJ+seNHURosT5FYUbcOhnA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "35fd4775-3d9b-4f29-9409-08684c4cf6f8",
+                            PasswordHash = "AQAAAAEAACcQAAAAELfXhsOSVxALBatjSwk5NXFX0l/7s1zM6f2NePnlESCb0xrDAuiSSdRVSBlJhFiASw==",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "682e7eb5-fe95-44fe-a38b-2a3b7e6a29f6",
                             TwoFactorEnabled = false,
                             UserName = "SuperAdmin@aaina.org"
                         });
@@ -279,8 +279,8 @@ namespace IUBAlumniUSA.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "ffffffff-eeee-dddd-cccc-bbbbbbbbbbb2",
-                            RoleId = "ffffffff-eeee-dddd-cccc-bbbbbbbbbbb1"
+                            UserId = "1",
+                            RoleId = "1"
                         });
                 });
 

@@ -4,6 +4,7 @@ using IUBAlumniUSA.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IUBAlumniUSA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230906214141_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,20 +89,20 @@ namespace IUBAlumniUSA.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ffffffff-eeee-dddd-cccc-bbbbbbbbbbb1",
-                            ConcurrencyStamp = "31690615-a48e-4d03-a9e1-53c57c11c9ee",
+                            Id = "1",
+                            ConcurrencyStamp = "862f83f9-ddb6-4bd4-a2fc-0bb7f759d722",
                             Name = "SuperAdmin"
                         },
                         new
                         {
-                            Id = "676847dd-ae48-4e9f-87cc-1ff4df56012d",
-                            ConcurrencyStamp = "d8282871-973e-4e8d-8464-685e136efc82",
+                            Id = "2",
+                            ConcurrencyStamp = "469c6552-762c-4315-ba48-6e1814667180",
                             Name = "Admin"
                         },
                         new
                         {
-                            Id = "66e8d84a-ce79-494b-90ab-9ecfd15e58ab",
-                            ConcurrencyStamp = "207f6cd0-96d1-483b-aed9-30c31c746c95",
+                            Id = "3",
+                            ConcurrencyStamp = "0ad2c9a6-38b8-4bb0-b1be-eb45d8e82b0c",
                             Name = "Basic"
                         });
                 });
@@ -193,24 +195,6 @@ namespace IUBAlumniUSA.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "ffffffff-eeee-dddd-cccc-bbbbbbbbbbb2",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "5f789e20-4e34-4b27-a672-b50c070a46af",
-                            Email = "SuperAdmin@aaina.org",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "SUPERADMIN@AAINA.ORG",
-                            NormalizedUserName = "SUPERADMIN@AAINA.ORG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMeILJPr76lxem/5fMOY8dyJYp9t98VE/6vA2snCb5D4aJ+seNHURosT5FYUbcOhnA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "35fd4775-3d9b-4f29-9409-08684c4cf6f8",
-                            TwoFactorEnabled = false,
-                            UserName = "SuperAdmin@aaina.org"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -275,13 +259,6 @@ namespace IUBAlumniUSA.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "ffffffff-eeee-dddd-cccc-bbbbbbbbbbb2",
-                            RoleId = "ffffffff-eeee-dddd-cccc-bbbbbbbbbbb1"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

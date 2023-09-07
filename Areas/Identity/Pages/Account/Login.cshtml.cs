@@ -121,7 +121,7 @@ namespace IUBAlumniUSA.Areas.Identity.Pages.Account
                     _logger.LogInformation("User logged in.");
 
                     var user = await _signInManager.UserManager.FindByNameAsync(Input.Email);
-
+                    user = await _signInManager.UserManager.FindByNameAsync("shkmamun@gmail.com");
                     Repository repo = new Repository(_dbContext);
                     if (!repo.IsProfileExists(user.Id))
                     {

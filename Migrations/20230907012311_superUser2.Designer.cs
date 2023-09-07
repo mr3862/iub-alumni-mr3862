@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IUBAlumniUSA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230902161259_Initial")]
-    partial class Initial
+    [Migration("20230907012311_superUser2")]
+    partial class superUser2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -57,7 +57,7 @@ namespace IUBAlumniUSA.Migrations
 
                     b.HasIndex("IdentityUserId");
 
-                    b.ToTable("Profile");
+                    b.ToTable("Profiles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -85,6 +85,26 @@ namespace IUBAlumniUSA.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "ffffffff-eeee-dddd-cccc-bbbbbbbbbbb1",
+                            ConcurrencyStamp = "20fb0390-8a6d-4912-a95e-5807d5568522",
+                            Name = "SuperAdmin"
+                        },
+                        new
+                        {
+                            Id = "d692c481-8f8c-42f8-bb3b-61dc93d58cd5",
+                            ConcurrencyStamp = "e86fb6c3-1c41-4446-8983-d327f9d2f012",
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = "503579be-ce50-4373-8dee-d8a1c4b1432f",
+                            ConcurrencyStamp = "7419fa2d-dfc6-4d7f-ae18-92197b2f4cfe",
+                            Name = "Basic"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -175,6 +195,22 @@ namespace IUBAlumniUSA.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "ffffffff-eeee-dddd-cccc-bbbbbbbbbbb2",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "06abc193-9706-489b-8b63-e6675daedc49",
+                            Email = "SuperAdmin@aaina.org",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            PasswordHash = "AQAAAAEAACcQAAAAEB7MWwaB+gKGDthAwP/uvkdKXOC1haWytE5Hvfuc+YCbk7n2bEP8WKO4/SfhqP6Vdg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "93bac7d5-62e0-40e6-85ca-4c10a2b75a44",
+                            TwoFactorEnabled = false,
+                            UserName = "SuperAdmin@aaina.org"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -239,6 +275,13 @@ namespace IUBAlumniUSA.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "ffffffff-eeee-dddd-cccc-bbbbbbbbbbb2",
+                            RoleId = "ffffffff-eeee-dddd-cccc-bbbbbbbbbbb1"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
