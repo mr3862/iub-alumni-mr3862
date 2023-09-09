@@ -1,15 +1,22 @@
-﻿@using IUBAlumniUSA.Services;
+﻿@using IUBAlumniUSA.Data
+@using IUBAlumniUSA.Services;
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+@inject Repository _repo
 @{
     
 }
-@if (SignInManager.IsSignedIn(User) && User.IsInRole(Utility.Roles.SuperAdmin.ToString()))
+@if (SignInManager.IsSignedIn(User))
 {
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Directory</a>
-    </li>
+    @if(User.IsInRole(Utility.Roles.SuperAdmin.ToString()) || _repo.IsProfileApproved(UserManager.GetUserId(User)) )
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Directory</a>
+        </li>
+    
+    }
+
 }
 
 

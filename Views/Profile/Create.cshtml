@@ -1,0 +1,108 @@
+﻿@model IUBAlumniUSA.ViewModels.ProfileViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create Profile</h1>
+ 
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BatchYear" class="control-label"></label>
+             @*   <input asp-for="BatchYear" class="form-control" />*@
+                <select asp-for="BatchYear" class="form-select" asp-items="Model.BatchYearsSelectList">
+                   <option value="">[Select Year]</option> 
+                </select>
+
+                @*<input asp-for="BatchYearsSelectList" class="form-select" />*@
+                <span asp-validation-for="BatchYear" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BatchTerm" class="control-label"></label>
+                <input asp-for="BatchTerm" class="form-control" />
+                <span asp-validation-for="BatchTerm" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Degree" class="control-label"></label>
+                <input asp-for="Degree" class="form-control" />
+                <span asp-validation-for="Degree" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country" class="control-label"></label>
+                <input asp-for="Country" class="form-control" />
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="City" class="control-label"></label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProvinceState" class="control-label"></label>
+                <input asp-for="ProvinceState" class="form-control" />
+                <span asp-validation-for="ProvinceState" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ZipPostalCode" class="control-label"></label>
+                <input asp-for="ZipPostalCode" class="form-control" />
+                <span asp-validation-for="ZipPostalCode" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ProfilePicture" style="width: 100%;"></label>
+                @if (Model.ProfilePicture != null)
+                {
+                    <img id="profilePicture" style="width:350px;height:350px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.ProfilePicture))">
+                }
+                else
+                {
+                    <img id="profilePicture" style="width:350px;height:350px; object-fit:cover" src="">
+                }
+                <input type="file"
+                       accept=".png,.jpg,.jpeg,.gif,.tif"
+                       asp-for="ProfilePicture"
+                       class="form-control"
+                       style="border:0px!important;padding: 0px;padding-top: 10px;padding-bottom: 30px;"
+                       onchange="document.getElementById('profilePicture').src = window.URL.createObjectURL(this.files[0])" />
+                <span asp-validation-for="ProfilePicture" class="text-danger"></span>
+            </div>
+          </div>
+
+
+            
+             
+            <div class="form-group" style="padding-top:5px;">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

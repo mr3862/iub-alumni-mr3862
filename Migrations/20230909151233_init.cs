@@ -49,6 +49,20 @@ namespace IUBAlumniUSA.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Degrees",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DegreeName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    DegreeLevel = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Degrees", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Profiles",
                 columns: table => new
                 {
@@ -184,15 +198,24 @@ namespace IUBAlumniUSA.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1", "e341de80-a817-4eb4-9d54-2bb005bfa16d", "SuperAdmin", "SUPERADMIN" },
-                    { "a83a97e4-f076-44a7-b4ef-2e8d0dd78b09", "52eaf9ec-f05a-497b-955a-e061b5756fdd", "Admin", "ADMIN" },
-                    { "de1d0eee-ea0e-4ba7-88b1-783f6115f899", "e5b66914-b9b0-4c6e-bdeb-5df83908a090", "Basic", "BASIC" }
+                    { "1", "08405a79-59f5-4a5c-b552-e5925a561e2a", "SuperAdmin", "SUPERADMIN" },
+                    { "d03f3f13-f7ae-4fad-8cc5-e8dd6928f9bf", "e061c2a4-5301-4396-bea1-c3a547b2dd02", "Basic", "BASIC" },
+                    { "dc0806a6-9d7e-4204-82c4-9532315d59d7", "71a31222-6e2f-4fff-a57d-7a42c2ad9a8f", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "6c1e5bde-7b88-4a91-9c3b-2d61a8bf87f3", "SuperAdmin@aaina.org", true, false, null, "SUPERADMIN@AAINA.ORG", "SUPERADMIN@AAINA.ORG", "AQAAAAEAACcQAAAAECe3L5x4GmA+796avRJXNBfmZtnrSWtlzdEzEV4jra1aWxqB29YiSOHINH6cI9igGg==", null, false, "22960337-b653-4a1a-8e46-6bfce98fc2f1", false, "SuperAdmin@aaina.org" });
+                values: new object[] { "1", 0, "40cf0689-3109-49e6-b1c9-178b4e54cc1b", "SuperAdmin@aaina.org", true, false, null, "SUPERADMIN@AAINA.ORG", "SUPERADMIN@AAINA.ORG", "AQAAAAEAACcQAAAAEFMBuNsOsp1J6PAF0MduLvQI2zdf4+a7wIIATCNytimJGOAG+aOqN46zEYcx1ZNszw==", null, false, "2804e6b2-ec60-4d91-b606-b4846ebb1f9b", false, "SuperAdmin@aaina.org" });
+
+            migrationBuilder.InsertData(
+                table: "Degrees",
+                columns: new[] { "Id", "DegreeLevel", "DegreeName" },
+                values: new object[,]
+                {
+                    { 1, "B", "B.Sc. in Computer Science" },
+                    { 2, "B", "B.Sc. in Electrical & Electronic Engineering" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Profiles",
@@ -260,6 +283,9 @@ namespace IUBAlumniUSA.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Degrees");
 
             migrationBuilder.DropTable(
                 name: "Profiles");

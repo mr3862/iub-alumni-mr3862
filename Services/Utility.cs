@@ -22,4 +22,12 @@ public static class Utility
         Canada,
 
     }
+
+    public enum DegreeLevel
+    {
+        [Description("B")]
+        Bachelor,
+        [Description("M")]
+        Master,
+    }
 }

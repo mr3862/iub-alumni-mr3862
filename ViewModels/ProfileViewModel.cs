@@ -1,23 +1,21 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 using AutoMapperProfile = AutoMapper.Profile;
+using Profile = IUBAlumniUSA.Models.Profile;
 
-using IUBAlumniUSA.ViewModels;
+namespace IUBAlumniUSA.ViewModels;
 
-namespace IUBAlumniUSA.Models;
-
-public class Profile //: AutoMapperProfile
+public class ProfileViewModel : AutoMapperProfile
 {
-    public Profile()
+    public ProfileViewModel()
     {
-        //CreateMap<Profile, ProfileViewModel>();
+        //source mapping to destination
+        CreateMap<ProfileViewModel, Profile>();
+        CreateMap<Profile, ProfileViewModel>();
     }
-    
-    [Key]
-    public int Id { get; set; }
+
+    public int? Id { get; set; }
 
     [Required]
     [Display(Name = "First Name")]
@@ -32,9 +30,27 @@ public class Profile //: AutoMapperProfile
     [Required]
     [Display(Name = "Batch Year")]
     public int BatchYear { get; set; }
+
+    // [Required]
+    [Display(Name = "Batch Year Select")]
+    public List<SelectListItem>? BatchYearsSelectList
+    {
+        get
+        {
+            var list = new List<SelectListItem>();
+
+            for (var year = 1993; year < DateTime.Now.Year - 3; year++)
+            {
+                var item = new SelectListItem(year.ToString(), year.ToString());
+                list.Add(item);
+            }
+            return list;
+        }
+    }
+
     public int? BatchTerm { get; set; }
-    
-  //  [Required]
+
+    //  [Required]
     [MaxLength(200)]
     public String? Degree { get; set; }
 
@@ -56,10 +72,10 @@ public class Profile //: AutoMapperProfile
 
     [Display(Name = "Profile Picture")]
     public byte[]? ProfilePicture { get; set; }
-    
+
 
     public Boolean IsApproved { get; set; }
 
-    [ForeignKey("IdentityUser")]
-    public string IdentityUserId { get; set; }
+
+    //public string IdentityUserId { get; set; }
 }

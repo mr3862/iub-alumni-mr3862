@@ -24,12 +24,14 @@ namespace IUBAlumniUSA.Areas.Identity.Pages.Account
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly ApplicationDbContext _dbContext;
+        private readonly Repository _repo;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger, ApplicationDbContext dbContext)
+        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger, ApplicationDbContext dbContext, Repository repository)
         {
             _signInManager = signInManager;
             _logger = logger;
             _dbContext = dbContext;
+            _repo = repository;
         }
 
         /// <summary>
@@ -121,17 +123,38 @@ namespace IUBAlumniUSA.Areas.Identity.Pages.Account
                     _logger.LogInformation("User logged in.");
 
                     var user = await _signInManager.UserManager.FindByNameAsync(Input.Email);
-                   var roles = await _signInManager.UserManager.GetRolesAsync(user);
+                  // var roles = await _signInManager.UserManager.GetRolesAsync(user);
                    Repository repo = new Repository(_dbContext);
-                    if (!repo.IsProfileExists(user.Id))
+
+                    var prof = _repo.GetProfile(user.Id);
+                    if (prof != null)
                     {
-                        returnUrl = Url.Action("ForgotPassword", "Account" );
-                        return RedirectToPage("./Manage/Index");
+                        if (prof.IsApproved)
+                        {
+                            //show directory
+                        }
+                        else
+                        {
+                            //show  home with pending message
+                            return RedirectToPage("./Manage/Index");
+                        }
+
                     }
                     else
                     {
-                        returnUrl = Url.Action("Index", "Home", new { Area = "" });
+                        //create profile
+                        returnUrl = Url.Action("Create", "Profile", new { Area = "" });
+
                     }
+                    //if (!repo.IsProfileExists(user.Id))
+                    //{
+                    //   // returnUrl = Url.Action("ForgotPassword", "Account" );
+                        
+                    //}
+                    //else
+                    //{
+                    //    returnUrl = Url.Action("Index", "Home", new { Area = "" });
+                    //}
                     
                     return LocalRedirect(returnUrl);
                 }

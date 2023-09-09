@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IUBAlumniUSA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230907212702_init")]
+    [Migration("20230909151233_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,43 @@ namespace IUBAlumniUSA.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("IUBAlumniUSA.Models.Degree", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("DegreeLevel")
+                        .IsRequired()
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
+
+                    b.Property<string>("DegreeName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Degrees");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DegreeLevel = "B",
+                            DegreeName = "B.Sc. in Computer Science"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DegreeLevel = "B",
+                            DegreeName = "B.Sc. in Electrical & Electronic Engineering"
+                        });
+                });
 
             modelBuilder.Entity("IUBAlumniUSA.Models.Profile", b =>
                 {
@@ -128,21 +165,21 @@ namespace IUBAlumniUSA.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "e341de80-a817-4eb4-9d54-2bb005bfa16d",
+                            ConcurrencyStamp = "08405a79-59f5-4a5c-b552-e5925a561e2a",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "a83a97e4-f076-44a7-b4ef-2e8d0dd78b09",
-                            ConcurrencyStamp = "52eaf9ec-f05a-497b-955a-e061b5756fdd",
+                            Id = "dc0806a6-9d7e-4204-82c4-9532315d59d7",
+                            ConcurrencyStamp = "71a31222-6e2f-4fff-a57d-7a42c2ad9a8f",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "de1d0eee-ea0e-4ba7-88b1-783f6115f899",
-                            ConcurrencyStamp = "e5b66914-b9b0-4c6e-bdeb-5df83908a090",
+                            Id = "d03f3f13-f7ae-4fad-8cc5-e8dd6928f9bf",
+                            ConcurrencyStamp = "e061c2a4-5301-4396-bea1-c3a547b2dd02",
                             Name = "Basic",
                             NormalizedName = "BASIC"
                         });
@@ -242,15 +279,15 @@ namespace IUBAlumniUSA.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6c1e5bde-7b88-4a91-9c3b-2d61a8bf87f3",
+                            ConcurrencyStamp = "40cf0689-3109-49e6-b1c9-178b4e54cc1b",
                             Email = "SuperAdmin@aaina.org",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@AAINA.ORG",
                             NormalizedUserName = "SUPERADMIN@AAINA.ORG",
-                            PasswordHash = "AQAAAAEAACcQAAAAECe3L5x4GmA+796avRJXNBfmZtnrSWtlzdEzEV4jra1aWxqB29YiSOHINH6cI9igGg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFMBuNsOsp1J6PAF0MduLvQI2zdf4+a7wIIATCNytimJGOAG+aOqN46zEYcx1ZNszw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "22960337-b653-4a1a-8e46-6bfce98fc2f1",
+                            SecurityStamp = "2804e6b2-ec60-4d91-b606-b4846ebb1f9b",
                             TwoFactorEnabled = false,
                             UserName = "SuperAdmin@aaina.org"
                         });

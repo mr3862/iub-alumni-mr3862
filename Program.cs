@@ -18,6 +18,14 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddTransient<Repository>(serviceProvider =>{
+            var _db = serviceProvider.GetService<ApplicationDbContext>();
+            return new Repository(_db);
+        }
+        );
+
+
 
 //builder.Services.AddControllersWithViews().AddRazorPagesOptions(options =>
 //{
