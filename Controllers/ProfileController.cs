@@ -43,9 +43,10 @@ namespace IUBAlumniUSA.Controllers
             var user = await _userManager.GetUserAsync(User);
             var prof = _context.Profiles.Where(p => p.IdentityUserId == user.Id).FirstOrDefault();
 
-            if(!prof.IsApproved || User.IsInRole(Utility.Roles.SuperAdmin.ToString()))
+            if(prof==null || !prof.IsApproved )
             {
-                return Unauthorized();
+                return RedirectToAction("Index","Home");
+                //return Unauthorized();
             }
 
             return _context.Profiles != null ?
