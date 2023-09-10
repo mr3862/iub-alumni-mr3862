@@ -16,6 +16,9 @@ using System.Text;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Text.Encodings.Web;
+using Microsoft.AspNetCore.Authorization;
+using IUBAlumniUSA.Services;
+using static IUBAlumniUSA.Services.Utility;
 
 namespace IUBAlumniUSA.Controllers
 {
@@ -34,11 +37,20 @@ namespace IUBAlumniUSA.Controllers
         }
 
         // GET: Profiles
+        //[Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<IActionResult> Index()
         {
-              return _context.Profiles != null ? 
-                          View(await _context.Profiles.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Profiles'  is null.");
+            var user = await _userManager.GetUserAsync(User);
+            var prof = _context.Profiles.Where(p => p.IdentityUserId == user.Id).FirstOrDefault();
+
+            if(!prof.IsApproved || User.IsInRole(Utility.Roles.SuperAdmin.ToString()))
+            {
+                return Unauthorized();
+            }
+
+            return _context.Profiles != null ?
+                        View(await _context.Profiles.Where(p => p.IdentityUserId != "1").ToListAsync()) :
+                        Problem("Entity set 'ApplicationDbContext.Profiles'  is null.");
         }
 
         // GET: Profiles/Details/5
@@ -73,12 +85,12 @@ namespace IUBAlumniUSA.Controllers
             {
                 model = _imapper.Map<ProfileViewModel>(prof);
             }
-              /*
-            model.BatchYearsSelectList = new List<SelectListItem>();
-            for (var year = 1993;year < DateTime.Now.Year - 3; year++){
-                var item = new SelectListItem(year.ToString(), year.ToString());
-                model.BatchYearsSelectList.Add(item);
-            }*/
+            /*
+          model.BatchYearsSelectList = new List<SelectListItem>();
+          for (var year = 1993;year < DateTime.Now.Year - 3; year++){
+              var item = new SelectListItem(year.ToString(), year.ToString());
+              model.BatchYearsSelectList.Add(item);
+          }*/
             return View(model);
         }
 
@@ -87,18 +99,29 @@ namespace IUBAlumniUSA.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( ProfileViewModel profile)
+        public async Task<IActionResult> Create(ProfileViewModel profile)
         {
             if (ModelState.IsValid)
             {
                 var prof = _imapper.Map<Profile>(profile);
                 var user = await _userManager.GetUserAsync(User);
                 prof.IdentityUserId = user.Id;
+                if (Request.Form.Files.Count > 0)
+                {
+                    IFormFile file = Request.Form.Files.FirstOrDefault();
+                    using (var dataStream = new MemoryStream())
+                    {
+                        await file.CopyToAsync(dataStream);
+                        prof.ProfilePicture = dataStream.ToArray();
+                    }
+                    // await _userManager.UpdateAsync(user);
+                }
 
                 var existProf = _context.Profiles.Where(p => p.IdentityUserId == user.Id).FirstOrDefault();
                 if (existProf != null)
                 {
                     existProf.Address = prof.Address;
+                    existProf.ProfilePicture = prof.ProfilePicture;
                 }
                 else
                 {
@@ -106,7 +129,7 @@ namespace IUBAlumniUSA.Controllers
                 }
                 await _context.SaveChangesAsync();
 
-                string hashCode = CreateHashCode(user.Id+ prof.Id);
+                string hashCode = CreateHashCode(user.Id + prof.Id);
 
                 //var callbackUrl = Url.Page(
                 //    "/Profile/Approve",
@@ -114,7 +137,7 @@ namespace IUBAlumniUSA.Controllers
                 //    values: new { area = "", userId = user.Id, code = hashCode },
                 //    protocol: Request.Scheme);
 
-                var callbackUrl = Url.ActionLink("Approve","Profile", new { area = "", userId = user.Id, code = hashCode });
+                var callbackUrl = Url.ActionLink("Approve", "Profile", new { area = "", userId = user.Id, code = hashCode });
 
                 await _emailSender.SendEmailAsync("mr3862@columbia.edu", "Confirm your email",
                     $"Please approve the profile of {prof.FirstName + " " + prof.LastName} <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
@@ -124,7 +147,7 @@ namespace IUBAlumniUSA.Controllers
             return View(profile);
         }
 
-        private  string CreateHashCode(string userId)
+        private string CreateHashCode(string userId)
         {
             var code = Encoding.UTF8.GetBytes(userId);
             code = MD5.Create().ComputeHash(code);
@@ -215,14 +238,14 @@ namespace IUBAlumniUSA.Controllers
             {
                 _context.Profiles.Remove(profile);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ProfileExists(int id)
         {
-          return (_context.Profiles?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Profiles?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
         public async Task<IActionResult> Approve(string userId, string code)
@@ -239,13 +262,13 @@ namespace IUBAlumniUSA.Controllers
                 return NotFound($"Unable to load user with ID '{userId}'.");
             }
 
-            string hashCode = CreateHashCode(userId+prof.Id);
+            string hashCode = CreateHashCode(userId + prof.Id);
 
             var message = "Error matching code.";
             if (hashCode == code)
             {
                 message = "Code matching";
-                
+
                 if (prof != null)
                 {
                     prof.IsApproved = true;
@@ -254,7 +277,12 @@ namespace IUBAlumniUSA.Controllers
             }
             //var result = await _userManager.ConfirmEmailAsync(user, code);
             //StatusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
-            
+
+            return View();
+        }
+
+        public async Task<IActionResult> PendigApproval()
+        {
             return View();
         }
     }

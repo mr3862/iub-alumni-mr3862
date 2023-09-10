@@ -132,11 +132,13 @@ namespace IUBAlumniUSA.Areas.Identity.Pages.Account
                         if (prof.IsApproved)
                         {
                             //show directory
+                            returnUrl = Url.Action("Index", "Profile", new { Area = "" });
                         }
                         else
                         {
                             //show  home with pending message
-                            return RedirectToPage("./Manage/Index");
+                            //return RedirectToPage("./Manage/Index");
+                            returnUrl = Url.Action("PendigApproval", "Profile", new { Area = "" });
                         }
 
                     }

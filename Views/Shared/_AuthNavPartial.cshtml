@@ -12,7 +12,7 @@
     @if(User.IsInRole(Utility.Roles.SuperAdmin.ToString()) || _repo.IsProfileApproved(UserManager.GetUserId(User)) )
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Directory</a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="Index">Directory</a>
         </li>
     
     }

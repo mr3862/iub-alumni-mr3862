@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IUBAlumniUSA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230909151233_init")]
+    [Migration("20230910002528_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -165,21 +165,21 @@ namespace IUBAlumniUSA.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "08405a79-59f5-4a5c-b552-e5925a561e2a",
+                            ConcurrencyStamp = "6b344c74-8ee3-478d-8e63-740eeb7cb4f9",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "dc0806a6-9d7e-4204-82c4-9532315d59d7",
-                            ConcurrencyStamp = "71a31222-6e2f-4fff-a57d-7a42c2ad9a8f",
+                            Id = "ccde504d-243e-4878-8949-4b047139beee",
+                            ConcurrencyStamp = "c489481d-9254-43c4-8554-5a51e56fefe1",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "d03f3f13-f7ae-4fad-8cc5-e8dd6928f9bf",
-                            ConcurrencyStamp = "e061c2a4-5301-4396-bea1-c3a547b2dd02",
+                            Id = "8f7ba3a8-290a-42a9-a2cc-1b83af651ff9",
+                            ConcurrencyStamp = "3508be63-b9bd-4b9b-8927-83ce0567f9ad",
                             Name = "Basic",
                             NormalizedName = "BASIC"
                         });
@@ -279,15 +279,15 @@ namespace IUBAlumniUSA.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "40cf0689-3109-49e6-b1c9-178b4e54cc1b",
+                            ConcurrencyStamp = "482f882d-0363-4c0e-a7ed-8b6b8e2c5563",
                             Email = "SuperAdmin@aaina.org",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@AAINA.ORG",
                             NormalizedUserName = "SUPERADMIN@AAINA.ORG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFMBuNsOsp1J6PAF0MduLvQI2zdf4+a7wIIATCNytimJGOAG+aOqN46zEYcx1ZNszw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHFr91hVGOHj3SPynQAWmas9JaoeJWe0jSBPhzg6XyllOqtXH5RzKyOYyBsWRLRWFg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2804e6b2-ec60-4d91-b606-b4846ebb1f9b",
+                            SecurityStamp = "c2f8e0d6-13ef-443d-b6d2-ea559e5c535f",
                             TwoFactorEnabled = false,
                             UserName = "SuperAdmin@aaina.org"
                         });

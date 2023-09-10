@@ -198,15 +198,15 @@ namespace IUBAlumniUSA.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1", "08405a79-59f5-4a5c-b552-e5925a561e2a", "SuperAdmin", "SUPERADMIN" },
-                    { "d03f3f13-f7ae-4fad-8cc5-e8dd6928f9bf", "e061c2a4-5301-4396-bea1-c3a547b2dd02", "Basic", "BASIC" },
-                    { "dc0806a6-9d7e-4204-82c4-9532315d59d7", "71a31222-6e2f-4fff-a57d-7a42c2ad9a8f", "Admin", "ADMIN" }
+                    { "1", "6b344c74-8ee3-478d-8e63-740eeb7cb4f9", "SuperAdmin", "SUPERADMIN" },
+                    { "8f7ba3a8-290a-42a9-a2cc-1b83af651ff9", "3508be63-b9bd-4b9b-8927-83ce0567f9ad", "Basic", "BASIC" },
+                    { "ccde504d-243e-4878-8949-4b047139beee", "c489481d-9254-43c4-8554-5a51e56fefe1", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "40cf0689-3109-49e6-b1c9-178b4e54cc1b", "SuperAdmin@aaina.org", true, false, null, "SUPERADMIN@AAINA.ORG", "SUPERADMIN@AAINA.ORG", "AQAAAAEAACcQAAAAEFMBuNsOsp1J6PAF0MduLvQI2zdf4+a7wIIATCNytimJGOAG+aOqN46zEYcx1ZNszw==", null, false, "2804e6b2-ec60-4d91-b606-b4846ebb1f9b", false, "SuperAdmin@aaina.org" });
+                values: new object[] { "1", 0, "482f882d-0363-4c0e-a7ed-8b6b8e2c5563", "SuperAdmin@aaina.org", true, false, null, "SUPERADMIN@AAINA.ORG", "SUPERADMIN@AAINA.ORG", "AQAAAAEAACcQAAAAEHFr91hVGOHj3SPynQAWmas9JaoeJWe0jSBPhzg6XyllOqtXH5RzKyOYyBsWRLRWFg==", null, false, "c2f8e0d6-13ef-443d-b6d2-ea559e5c535f", false, "SuperAdmin@aaina.org" });
 
             migrationBuilder.InsertData(
                 table: "Degrees",
