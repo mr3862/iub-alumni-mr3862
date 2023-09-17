@@ -36,4 +36,9 @@ public class Repository
 
         return prof != null;
     }
+
+    public IQueryable<Degree>  GetDegrees()
+    {
+        return _dbContext.Degrees.AsQueryable();
+    }
 }

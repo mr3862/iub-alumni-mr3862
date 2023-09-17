@@ -86,6 +86,7 @@ namespace IUBAlumniUSA.Controllers
             {
                 model = _imapper.Map<ProfileViewModel>(prof);
             }
+            model.SetContext(_context);
             /*
           model.BatchYearsSelectList = new List<SelectListItem>();
           for (var year = 1993;year < DateTime.Now.Year - 3; year++){
@@ -104,6 +105,7 @@ namespace IUBAlumniUSA.Controllers
         {
             if (ModelState.IsValid)
             {
+                profile.SetContext(_context);
                 var prof = _imapper.Map<Profile>(profile);
                 var user = await _userManager.GetUserAsync(User);
                 prof.IdentityUserId = user.Id;
@@ -169,7 +171,11 @@ namespace IUBAlumniUSA.Controllers
             {
                 return NotFound();
             }
-            return View(profile);
+            
+        var  model = _imapper.Map<ProfileViewModel>(profile);        
+        model.SetContext(_context);
+
+         return View(model);
         }
 
         // POST: Profiles/Edit/5
@@ -177,8 +183,10 @@ namespace IUBAlumniUSA.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,BatchYear,BatchTerm,Degree,Country,Address,City,ProvinceState,ZipPostalCode,ProfilePicture,IsApproved,IdentityUserId")] Profile profile)
+        public async Task<IActionResult> Edit(int id, ProfileViewModel model)
         {
+            model.SetContext(_context);
+            var profile = _imapper.Map<Profile>(model);
             if (id != profile.Id)
             {
                 return NotFound();
@@ -186,9 +194,26 @@ namespace IUBAlumniUSA.Controllers
 
             if (ModelState.IsValid)
             {
+                if (Request.Form.Files.Count > 0)
+                {
+                    IFormFile file = Request.Form.Files.FirstOrDefault();
+                    using (var dataStream = new MemoryStream())
+                    {
+                        await file.CopyToAsync(dataStream);
+                        profile.ProfilePicture = dataStream.ToArray();
+                    }
+                    // await _userManager.UpdateAsync(user);
+                }
+
                 try
                 {
-                    _context.Update(profile);
+                    var entry = _context.Entry(profile);
+                    entry.State = EntityState.Modified;
+                    entry.Property("IdentityUserId").IsModified = false;
+                    entry.Property("IsApproved").IsModified = false;
+                    //_context.Update(profile);
+
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -204,9 +229,9 @@ namespace IUBAlumniUSA.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(profile);
+            return View(model);
         }
-
+/*
         // GET: Profiles/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -243,7 +268,7 @@ namespace IUBAlumniUSA.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
+*/
         private bool ProfileExists(int id)
         {
             return (_context.Profiles?.Any(e => e.Id == id)).GetValueOrDefault();
