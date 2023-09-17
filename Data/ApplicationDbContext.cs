@@ -87,6 +87,17 @@ namespace IUBAlumniUSA.Data
                 //new Degree { DegreeName = "M.Sc. in  Computer Networks and Communications", DegreeLevel = "M" },
                 //new Degree { DegreeName = "M.Sc. in Telecommunication Engineering", DegreeLevel = "M" },
                 //new Degree { DegreeName = "Master of Business Administration", DegreeLevel = "M" }
+                /*
+                insert into[dbo].[Degrees](DegreeName, DegreeLevel)
+values('B.Sc. in Electrical & Telecommunication Engineering', 'B'),
+                ('B.Sc. in Computer Science & Engineering', 'B'),
+               ('B.Sc. in Pharmacy', 'B'),
+                ('Bachelor of Business Administration', 'B'),
+                ('M.Sc. in Computer Science', 'M'),
+                ('M.Sc. in Software Engineering', 'M'),
+                ('M.Sc. in  Computer Networks and Communications', 'M'),
+                ('M.Sc. in Telecommunication Engineering', 'M'),
+                ('Master of Business Administration', 'M')*/
             );
         }
         public virtual DbSet<Profile> Profiles { get; set; }

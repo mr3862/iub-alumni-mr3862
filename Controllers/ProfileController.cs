@@ -300,6 +300,11 @@ namespace IUBAlumniUSA.Controllers
                     prof.IsApproved = true;
                 }
                 await _context.SaveChangesAsync();
+                return View();
+            }
+            else
+            {
+                return NotFound($"Unable to match code.");
             }
             //var result = await _userManager.ConfirmEmailAsync(user, code);
             //StatusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
