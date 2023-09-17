@@ -123,8 +123,19 @@ namespace IUBAlumniUSA.Controllers
                 var existProf = _context.Profiles.Where(p => p.IdentityUserId == user.Id).FirstOrDefault();
                 if (existProf != null)
                 {
+                    prof.Id = existProf.Id;
+                    existProf.FirstName = prof.FirstName;
+                    existProf.LastName = prof.LastName;
+                    existProf.Country = prof.Country;
+                    existProf.BatchYear = prof.BatchYear;
+                    existProf.BatchTerm = prof.BatchTerm;
                     existProf.Address = prof.Address;
+                    existProf.City = prof.City;
+                    existProf.ProvinceState = prof.ProvinceState;
+                    existProf.ZipPostalCode = prof.ZipPostalCode;
                     existProf.ProfilePicture = prof.ProfilePicture;
+                    existProf.Degree = prof.Degree;
+
                 }
                 else
                 {
