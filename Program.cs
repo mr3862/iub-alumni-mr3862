@@ -32,6 +32,8 @@ builder.Services.AddTransient<Repository>(serviceProvider =>{
 //    options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "");
 //});
 
+Syncfusion.Licensing.SyncfusionLicenseProvider
+    .RegisterLicense("Mgo+DSMBMAY9C3t2VlhhQlJCfV5CQmJAYVF2R2BJd1R1c19DaUwxOX1dQl9gSXdSf0djXHdccnJWRWY=");
 
 var app = builder.Build();
 
@@ -86,3 +88,5 @@ remove-migration -force
 Add-Migration profile123
 Update-Database
  */
+
+//Mgo+DSMBMAY9C3t2VlhhQlJCfV5CQmJAYVF2R2BJd1R1c19DaUwxOX1dQl9gSXdSf0djXHdccnJWRWY=

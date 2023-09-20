@@ -19,6 +19,9 @@ using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Authorization;
 using IUBAlumniUSA.Services;
 using static IUBAlumniUSA.Services.Utility;
+//using Kendo.Mvc.Examples.Models;
+//using Kendo.Mvc.Extensions;
+//using Kendo.Mvc.UI;
 
 namespace IUBAlumniUSA.Controllers
 {
@@ -143,7 +146,7 @@ namespace IUBAlumniUSA.Controllers
                 }
                 await _context.SaveChangesAsync();
 
-                string hashCode = CreateHashCode(user.Id + prof.Id);
+                string hashCode = CreateHashCode(user.Id );
 
                 //var callbackUrl = Url.Page(
                 //    "/Profile/Approve",
@@ -299,7 +302,7 @@ namespace IUBAlumniUSA.Controllers
                 return NotFound($"Unable to load user with ID '{userId}'.");
             }
 
-            string hashCode = CreateHashCode(userId + prof.Id);
+            string hashCode = CreateHashCode(userId );
 
             var message = "Error matching code.";
             if (hashCode == code)

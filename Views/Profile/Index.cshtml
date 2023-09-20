@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<IUBAlumniUSA.Models.Profile>
+@*@using Kendo.Mvc*@
 
 @{
     ViewData["Title"] = "Index";
@@ -7,83 +8,120 @@
 <h1>Directory</h1>
 
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BatchYear)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BatchTerm)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Degree)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Country)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.City)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProvinceState)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ZipPostalCode)
-            </th>
+<ejs-grid id="grid" dataSource="@Model" allowPaging="true" allowSorting="true" allowFiltering="false"
+    queryCellInfo="queryCellInfo">
+    <e-grid-pagesettings pageSize="10"></e-grid-pagesettings>
+    <e-grid-columns>
+        <e-grid-column field="ProfilePicture" headerText="" class="photo" template="<img style='width: 100px;height: 100px;border-radius: 50px;box-shadow: inset 0 0 1px #e0e0e0, inset 0 0 14px rgba(0, 0, 0, 0.2);' >"  width="100" ></e-grid-column>
+        <e-grid-column  headerText="Alumnus" template="#tempNameYear"  width="120"></e-grid-column>
+@*        <e-grid-column field="FirstName" headerText="First Name" textAlign="Left" width="120"></e-grid-column>
+        <e-grid-column field="LastName" headerText="Last Name" width="150"></e-grid-column>
+        <e-grid-column field="BatchYear" headerText="Batch Year" width="130"></e-grid-column>*@
+        <e-grid-column field="Degree" headerText="Degree"   width="120"></e-grid-column>
+        <e-grid-column headerText="Residence" template="#tempRes"  width="200"></e-grid-column>
+    </e-grid-columns>
+</ejs-grid>
 
-      
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BatchYear)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BatchTerm)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Degree)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Country)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.City)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProvinceState)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ZipPostalCode)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-               @* | <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<script>
+    function queryCellInfo(args) { // Grid queryCellInfo event handler
+        if (args.column.field == "ProfilePicture") {
+            args.cell.querySelector('img').setAttribute('src', 'data:image/png;base64 ,' + args.data.ProfilePicture);
+        }
+    }
+</script>
+
+<script id="tempRes" type="text/x-template">
+    <span>
+
+        ${City} 
+        <br>
+        ${ProvinceState} ${ZipPostalCode} 
+        <br>
+        ${Country} 
+    </span>
+</script>
+
+<script id="tempNameYear" type="text/x-template">
+    <span>
+        ${FirstName} ${LastName}
+        <br>
+        ${BatchYear} 
+    </span>
+</script>
+
+        <style type="text/css" class="cssStyles">
+    .photo img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50px;
+        box-shadow: inset 0 0 1px #e0e0e0, inset 0 0 14px rgba(0, 0, 0, 0.2);
+    }
+  
+    .photo,
+    .details {
+        border-color: #e0e0e0;
+        border-style: solid;
+    }
+    
+    .material-dark .photo,
+    .material-dark .details {
+        border-color: #616161;
+    }
+
+    .fabric-dark .photo,
+    .fabric-dark .details {
+        border-color: #414040;
+    }
+
+    .bootstrap-dark .photo,
+    .bootstrap-dark .details {
+        border-color: #484848;
+    }
+
+    .tailwind-dark .photo,
+    .tailwind-dark .details {
+        border-color: #4b5563;
+    }
+
+    .bootstrap5-dark .photo,
+    .bootstrap5-dark .details {
+        border-color: rgb(68, 76, 84);
+    }
+
+    .highcontrast .photo,
+    .highcontrast .details {
+        border-color: #969696;
+    }
+
+    .photo {
+        border-width: 1px 0px 0px 0px;
+        text-align: center;
+    }
+
+    .details {
+        border-width: 1px 0px 0px 0px;
+        padding-left: 18px;
+    }
+
+    .e-bigger .details {
+        padding-left: 25px;
+    }
+
+    .e-device .details {
+        padding-left: 8px;
+    }
+
+    .details > table {
+        width: 100%;
+    }
+
+    .CardHeader {
+        font-weight: 600;
+    }
+
+    td {
+        padding: 2px 2px 3px 4px;
+    }
+        </style>
+
+
