@@ -34,7 +34,8 @@ public class Profile //: AutoMapperProfile
     public int BatchYear { get; set; }
 
     [Display(Name = "Batch Term")]
-    public int? BatchTerm { get; set; }
+    [MaxLength(100)]
+    public String? BatchTerm { get; set; }
     
   //  [Required]
     [MaxLength(200)]
