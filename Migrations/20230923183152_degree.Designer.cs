@@ -4,6 +4,7 @@ using IUBAlumniUSA.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IUBAlumniUSA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230923183152_degree")]
+    partial class degree
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -161,10 +163,6 @@ namespace IUBAlumniUSA.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("PhoneNumber")
-                        .HasMaxLength(14)
-                        .HasColumnType("nvarchar(14)");
-
                     b.Property<byte[]>("ProfilePicture")
                         .HasColumnType("varbinary(max)");
 
@@ -189,56 +187,6 @@ namespace IUBAlumniUSA.Migrations
                             IdentityUserId = "1",
                             IsApproved = true,
                             LastName = "Admin"
-                        });
-                });
-
-            modelBuilder.Entity("IUBAlumniUSA.Models.SysConfig", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime?>("CreateTS")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreateUser")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Key")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SysConfigs");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreateTS = new DateTime(2023, 9, 25, 20, 35, 44, 884, DateTimeKind.Local).AddTicks(5849),
-                            CreateUser = "System",
-                            Key = "EmailSender",
-                            Type = "Basic",
-                            Value = "mr3862@columbia.edu"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreateTS = new DateTime(2023, 9, 25, 20, 35, 44, 884, DateTimeKind.Local).AddTicks(5898),
-                            CreateUser = "System",
-                            Key = "EmailSenderName",
-                            Type = "Basic",
-                            Value = "IUB Alumni - North America"
                         });
                 });
 
@@ -272,21 +220,21 @@ namespace IUBAlumniUSA.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "f98769ed-825c-42b0-832d-661302d2de29",
+                            ConcurrencyStamp = "1d7b4dc0-31de-422d-9775-b5250ad190fb",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "2",
-                            ConcurrencyStamp = "7c100771-cf76-4e73-8c54-b2ff160dcfed",
+                            Id = "3fb953da-3ab4-4562-8721-5eaa2e36b221",
+                            ConcurrencyStamp = "265dfaa2-9b01-4181-8210-a604f24905d5",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "3",
-                            ConcurrencyStamp = "b1ebb7a9-cefd-49c0-adbb-3d7362f13e0f",
+                            Id = "b13fef42-24ce-40a5-b03a-249fac113fa7",
+                            ConcurrencyStamp = "d6a589f0-4c1b-46d5-b20a-3310bda4c991",
                             Name = "Basic",
                             NormalizedName = "BASIC"
                         });
@@ -386,17 +334,17 @@ namespace IUBAlumniUSA.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8d719571-122b-4a4a-ac6b-d11070ed701f",
-                            Email = "mr3862@columbia.edu",
+                            ConcurrencyStamp = "5b9a9373-a87f-4fef-8718-05f46c42f8dc",
+                            Email = "SuperAdmin@aaina.org",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
-                            NormalizedEmail = "MR3862@COLUMBIA.EDU",
-                            NormalizedUserName = "MR3862@COLUMBIA.EDU",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDf+9ToJF2zQxjfyt3enhBOpE5dJMJKrg4TIjildcdu6qmb7vm/YPHbAjNuvSDE9JA==",
+                            NormalizedEmail = "SUPERADMIN@AAINA.ORG",
+                            NormalizedUserName = "SUPERADMIN@AAINA.ORG",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPuPuP7ooEANEVlqG97l8DMfPwFdtIxtw/u73f3E9/ShQWgbT8hLLdPKyF0UKbL04A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "224a3aa2-ced1-4636-9c8b-aec4dcfa6af2",
+                            SecurityStamp = "f9176fff-1757-4d18-91ab-828afc263bbc",
                             TwoFactorEnabled = false,
-                            UserName = "mr3862@columbia.edu"
+                            UserName = "SuperAdmin@aaina.org"
                         });
                 });
 
@@ -468,11 +416,6 @@ namespace IUBAlumniUSA.Migrations
                         {
                             UserId = "1",
                             RoleId = "1"
-                        },
-                        new
-                        {
-                            UserId = "1",
-                            RoleId = "2"
                         });
                 });
 

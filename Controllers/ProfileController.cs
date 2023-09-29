@@ -45,15 +45,34 @@ namespace IUBAlumniUSA.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
             var prof = _context.Profiles.Where(p => p.IdentityUserId == user.Id).FirstOrDefault();
-
+            
             if(prof==null || !prof.IsApproved )
             {
                 return RedirectToAction("Index","Home");
                 //return Unauthorized();
             }
-
+            var list =await _context.Profiles.Where(p => p.IdentityUserId != "1")
+                                    .Select(prof => _imapper.Map<ProfileViewModel>(prof))
+                                    .ToListAsync<ProfileViewModel>();
+            var _Degrees = _context.Degrees.ToList();
+            list.ForEach(async vm =>
+            {
+                var phoneNumber = "";
+                var email = "";
+                var user = await _userManager.FindByIdAsync(vm.IdentityUserId);
+                if (user != null)
+                {
+                    phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+                    email = await _userManager.GetEmailAsync(user);
+                }
+                 vm.EmailAddress = email;
+                var degrees =   _Degrees.Where(d => vm.Degree.Contains(d.Id.ToString())==true).Select(d => d.DegreeName).ToList<string>();
+                //                vm.Degree?.Split(",");
+                vm.Degree = string.Join("<br/>", degrees);
+            }
+            );
             return _context.Profiles != null ?
-                        View(await _context.Profiles.Where(p => p.IdentityUserId != "1").ToListAsync()) :
+                        View(list) :
                         Problem("Entity set 'ApplicationDbContext.Profiles'  is null.");
         }
 
@@ -71,8 +90,22 @@ namespace IUBAlumniUSA.Controllers
             {
                 return NotFound();
             }
+            var model = _imapper.Map<ProfileViewModel>(profile);
+            var phoneNumber = "";
+            var email = "";
+            var _Degrees = _context.Degrees.ToList();
+            var user = await _userManager.FindByIdAsync(model.IdentityUserId);
+            if (user != null)
+            {
+                phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+                email = await _userManager.GetEmailAsync(user);
+            }
+            model.EmailAddress = email;
+            var degrees = _Degrees.Where(d => model.Degree.Contains(d.Id.ToString()) == true).Select(d => d.DegreeName).ToList<string>();
+            //                vm.Degree?.Split(",");
+            model.Degree = string.Join("<br/>", degrees);
 
-            return View(profile);
+            return View(model);
         }
 
         // GET: Profiles/Create
@@ -88,6 +121,7 @@ namespace IUBAlumniUSA.Controllers
             else
             {
                 model = _imapper.Map<ProfileViewModel>(prof);
+                model.DegreeSelected = model.Degree?.Split(",");
             }
             model.SetContext(_context);
             /*
@@ -104,12 +138,13 @@ namespace IUBAlumniUSA.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ProfileViewModel profile)
-        {
+        public async Task<IActionResult> Create(ProfileViewModel model)
+        {model.SetContext(_context);
             if (ModelState.IsValid)
             {
-                profile.SetContext(_context);
-                var prof = _imapper.Map<Profile>(profile);
+                
+                model.Degree = string.Join(",", model.DegreeSelected);
+                var prof = _imapper.Map<Profile>(model);
                 var user = await _userManager.GetUserAsync(User);
                 prof.IdentityUserId = user.Id;
                 if (Request.Form.Files.Count > 0)
@@ -126,9 +161,13 @@ namespace IUBAlumniUSA.Controllers
                 var existProf = _context.Profiles.Where(p => p.IdentityUserId == user.Id).FirstOrDefault();
                 if (existProf != null)
                 {
-                    prof.Id = existProf.Id;
+                    var entry = _context.Entry(existProf);
+                    entry.State = EntityState.Modified;
+
+                    //prof.Id = existProf.Id;
                     existProf.FirstName = prof.FirstName;
                     existProf.LastName = prof.LastName;
+                    existProf.PhoneNumber = prof.PhoneNumber;
                     existProf.Country = prof.Country;
                     existProf.BatchYear = prof.BatchYear;
                     existProf.BatchTerm = prof.BatchTerm;
@@ -136,15 +175,22 @@ namespace IUBAlumniUSA.Controllers
                     existProf.City = prof.City;
                     existProf.ProvinceState = prof.ProvinceState;
                     existProf.ZipPostalCode = prof.ZipPostalCode;
-                    existProf.ProfilePicture = prof.ProfilePicture;
+                    if (prof.ProfilePicture?.Length > 0) {
+                        existProf.ProfilePicture = prof.ProfilePicture;
+                    }
+                    else
+                    {
+                        entry.Property("ProfilePicture").IsModified = false;
+                    }
                     existProf.Degree = prof.Degree;
+
 
                 }
                 else
                 {
                     _context.Add(prof);
                 }
-                await _context.SaveChangesAsync();
+               await _context.SaveChangesAsync();
 
                 string hashCode = CreateHashCode(user.Id );
 
@@ -155,13 +201,14 @@ namespace IUBAlumniUSA.Controllers
                 //    protocol: Request.Scheme);
 
                 var callbackUrl = Url.ActionLink("Approve", "Profile", new { area = "", userId = user.Id, code = hashCode });
-
-                await _emailSender.SendEmailAsync("mr3862@columbia.edu", "Confirm your email",
+                var adminUsers = await _userManager.GetUsersInRoleAsync("Admin");
+                var adminEmails = string.Join(";", adminUsers.Select(u => u.Email).ToList<string>());
+                await _emailSender.SendEmailAsync(adminEmails, $"Request to approve the profile of {prof.FirstName}",
                     $"Please approve the profile of {prof.FirstName + " " + prof.LastName} <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                 return RedirectToAction(nameof(Index));
             }
-            return View(profile);
+            return View(model);
         }
 
         private string CreateHashCode(string userId)
@@ -330,5 +377,31 @@ namespace IUBAlumniUSA.Controllers
         {
             return View();
         }
+
+        public async Task<IActionResult> AdminPanel(string IdentityUserId,bool IsApproved, bool IsAdmin)
+        {
+            var user = await _userManager.FindByIdAsync(IdentityUserId);
+            var profile = _context.Profiles.Where(p => p.IdentityUserId == IdentityUserId).FirstOrDefault();
+
+            if(profile.IsApproved != IsApproved)
+            {
+                profile.IsApproved = IsApproved;
+                await _context.SaveChangesAsync();
+            }
+
+            var Roles = await _userManager.GetRolesAsync(user);
+            var _admin = await _userManager.IsInRoleAsync(user, Utility.Roles.Admin.ToString());
+            if (_admin == false && IsAdmin == true)
+            {
+                await _userManager.AddToRoleAsync(user, Utility.Roles.Admin.ToString());
+            }
+            else if (_admin == true && IsAdmin == false)
+            {
+                await _userManager.RemoveFromRoleAsync(user, Utility.Roles.Admin.ToString());
+            }
+
+            return NoContent(); 
+        }
+
     }
 }

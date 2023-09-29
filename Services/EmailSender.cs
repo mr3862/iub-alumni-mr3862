@@ -1,4 +1,5 @@
-﻿using IUBAlumniUSA.Services;
+﻿using IUBAlumniUSA.Data;
+using IUBAlumniUSA.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Options;
 using SendGrid;
@@ -9,12 +10,15 @@ namespace UBAlumniUSA.Services;
 public class EmailSender : IEmailSender
 {
     private readonly ILogger _logger;
+    private readonly Repository _repository;
 
     public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor,
-                       ILogger<EmailSender> logger)
+                       ILogger<EmailSender> logger,
+                      Repository repository)
     {
         Options = optionsAccessor.Value;
         _logger = logger;
+        _repository = repository;
     }
 
     public AuthMessageSenderOptions Options { get; } //Set with Secret Manager.
@@ -31,7 +35,10 @@ public class EmailSender : IEmailSender
     public async Task Execute(string apiKey, string subject, string message, string toEmail)
     {
         var client = new SendGridClient(apiKey);
-        var from = new EmailAddress("mr3862@columbia.edu", "IUB Alumni USA");
+        var senderEmail = _repository.GetSysConfigByKey("EmailSender");
+        var senderEmailName = _repository.GetSysConfigByKey("EmailSenderName");
+
+        var from = new EmailAddress(senderEmail, senderEmailName);
         var msg = new SendGridMessage()
         {
             From = from,
@@ -39,7 +46,14 @@ public class EmailSender : IEmailSender
             PlainTextContent = message,
             HtmlContent = message
         };
-        msg.AddTo(new EmailAddress(toEmail));
+        char[] delimiters = new[] { ',', ';', ' ' };  // List of your delimiters
+        var _emails = toEmail.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+        
+        foreach(var _email in _emails)
+        {
+            msg.AddTo(new EmailAddress(_email));
+        }
+        
         
         // Disable click tracking.
         // See https://sendgrid.com/docs/User_Guide/Settings/tracking.html

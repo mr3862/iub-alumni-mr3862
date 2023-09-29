@@ -41,4 +41,25 @@ public class Repository
     {
         return _dbContext.Degrees.AsQueryable();
     }
+
+    //public List<string> GetAllAdminEmails()
+    //{
+    //    var adminEmails = new List<string>();
+    //    //_dbContext.Users.admin
+    //}
+
+    private List<SysConfig> _sysConfigs = null;
+    public String GetSysConfigByKey(string key)
+    {
+        string value = "";
+
+        if(_sysConfigs == null  && _dbContext!= null)
+        {
+            _sysConfigs = _dbContext.SysConfigs.ToList();
+        }
+
+        var conf = _sysConfigs?.Where(c => c.Key == key).FirstOrDefault();
+        value = conf?.Value.ToString();
+        return value;
+    }
 }

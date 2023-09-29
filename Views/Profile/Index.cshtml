@@ -1,4 +1,5 @@
-﻿@model IEnumerable<IUBAlumniUSA.Models.Profile>
+﻿@*@model IEnumerable<IUBAlumniUSA.Models.Profile>*@
+@model IEnumerable<IUBAlumniUSA.ViewModels.ProfileViewModel>
 @*@using Kendo.Mvc*@
 
 @{
@@ -7,7 +8,18 @@
 
 <h1>Directory</h1>
 
-
+@*<div>
+                <div class="form-group">
+                <label class="control-label">Batch Year</label>
+                
+                <select  >
+                    <option value="">[Select Year]</option>
+                </select>
+ 
+            </div>*@
+<ejs-button id="search" content="Search" ></ejs-button>
+</div>
+<br />
 <ejs-grid id="grid" dataSource="@Model" allowPaging="true" allowSorting="true" allowFiltering="false"
     queryCellInfo="queryCellInfo">
     <e-grid-pagesettings pageSize="10"></e-grid-pagesettings>
@@ -17,8 +29,9 @@
 @*        <e-grid-column field="FirstName" headerText="First Name" textAlign="Left" width="120"></e-grid-column>
         <e-grid-column field="LastName" headerText="Last Name" width="150"></e-grid-column>
         <e-grid-column field="BatchYear" headerText="Batch Year" width="130"></e-grid-column>*@
-        <e-grid-column field="Degree" headerText="Degree"   width="120"></e-grid-column>
+        <e-grid-column field="Degree" headerText="Academics" template="@Html.Raw("<span> Batch - ${BatchYear} <br>${Degree}</span>")"    width="120"></e-grid-column>
         <e-grid-column headerText="Residence" template="#tempRes"  width="200"></e-grid-column>
+        <e-grid-column headerText="" template="<a href='Profile/Details/${Id}'>Details</a>"  width="100"></e-grid-column>
     </e-grid-columns>
 </ejs-grid>
 
@@ -43,9 +56,12 @@
 
 <script id="tempNameYear" type="text/x-template">
     <span>
-        ${FirstName} ${LastName}
+        <span style="font-size:1.25em;"> ${FirstName} ${LastName} </span>
         <br>
-        ${BatchYear} 
+      
+        ${PhoneNumber} 
+                  <br>
+        ${EmailAddress} 
     </span>
 </script>
 

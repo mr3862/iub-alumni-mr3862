@@ -29,6 +29,11 @@ public class Profile //: AutoMapperProfile
     [Display(Name = "Last Name")]
     public string LastName { get; set; }
 
+    //[Required]
+    [MaxLength(14)]
+    //[Display(Name = "Phone Number")]
+    public string? PhoneNumber { get; set; }
+
     [Required]
     [Display(Name = "Batch Year")]
     public int BatchYear { get; set; }
@@ -65,4 +70,6 @@ public class Profile //: AutoMapperProfile
 
     [ForeignKey("IdentityUser")]
     public string IdentityUserId { get; set; }
+
+    //public IdentityUser IUser { get; set; }
 }

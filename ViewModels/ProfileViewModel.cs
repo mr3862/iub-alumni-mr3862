@@ -32,6 +32,16 @@ public class ProfileViewModel : AutoMapperProfile
     [MaxLength(100)]
     [Display(Name = "Last Name")]
     public string LastName { get; set; }
+     
+    [MaxLength(14)]
+    [Display(Name = "Phone Number")]
+    [Required(ErrorMessage = "You must provide a phone number")]
+     
+    [DataType(DataType.PhoneNumber)]
+    [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid phone number")]
+
+    public string PhoneNumber { get; set; }
+    public string? EmailAddress { get; set; }
 
     [Required]
     [Display(Name = "Batch Year")]
@@ -54,7 +64,7 @@ public class ProfileViewModel : AutoMapperProfile
         }
     }
     [Display(Name = "Batch Term")]
-    public int? BatchTerm { get; set; }
+    public String? BatchTerm { get; set; }
     [Display(Name = "Batch Term Select")]
     public List<SelectListItem>? BatchTermSelectList
     {
@@ -71,29 +81,32 @@ public class ProfileViewModel : AutoMapperProfile
         }
     }
 
-    //  [Required]
-    [MaxLength(200)]
+    
+    //[MaxLength(200)]
     public String? Degree { get; set; }
 
 
-    public List<SelectListItem>? DegreeSelectList
+    public SelectList? DegreeList
     {
         get
         {
-            var list = new List<SelectListItem>();
+            SelectList? selectList = null;
             if (context != null)
             {
-                foreach (var degree in context.Degrees)
+                selectList = new SelectList(context.Degrees, "Id", "DegreeName");
+                foreach(var item in selectList)
                 {
-                    var item = new SelectListItem(degree.DegreeName, degree.DegreeName);
-                    list.Add(item);
+                    if (this.Degree?.Split(",").Contains(item.Value)==true)
+                    {
+                        item.Selected = true;
+                    }
                 }
             }
-
-
-            return list;
+            return selectList;
         }
     }
+    [Required(ErrorMessage = "Please select at least one degree")]
+    public string[] DegreeSelected { set; get; }
 
     [MaxLength(20)]
     public String? Country { get; set; }
@@ -130,9 +143,10 @@ public class ProfileViewModel : AutoMapperProfile
     [Display(Name = "Profile Picture")]
     public byte[]? ProfilePicture { get; set; }
 
-
+    [Display(Name = "Approved")]
     public Boolean IsApproved { get; set; }
+    [Display(Name = "Admin")]
+    public Boolean IsAdmin { get; set; }
 
-
-    //public string IdentityUserId { get; set; }
+    public string? IdentityUserId { get; set; }
 }

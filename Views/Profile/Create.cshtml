@@ -22,6 +22,11 @@
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" placeholder="(xxx) xxx-xxxx" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="BatchYear" class="control-label"></label>
                 @*   <input asp-for="BatchYear" class="form-control" />*@
                 <select asp-for="BatchYear" class="form-select" asp-items="Model.BatchYearsSelectList">
@@ -40,15 +45,16 @@
             </div>
             <div class="form-group">
                 <label asp-for="Degree" class="control-label"></label>
+                <input asp-for="DegreeSelected" class="form-control" type="hidden"/>
                 @*                <select asp-for="Degree" class="form-select" asp-items="Model.DegreeSelectList">
                 <option value="">[Select Degree]</option>
                 </select>*@
 
-                @foreach (var item in Model.DegreeSelectList)
+            @*    @foreach (var item in Model.DegreeList)
                 {
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox"
+                            <input asp-for="Degree" type="checkbox"
                                name="Degree"
                                value="@item.Value"
                                @if(Model.Degree != null && Model.Degree.Contains(item.Value))
@@ -58,9 +64,21 @@
                         /> @item.Text
                         </label>
                     </div>
-                }
-
-                <span asp-validation-for="Degree" class="text-danger"></span>
+                }*@
+                <span asp-validation-for="DegreeSelected" class="text-danger"></span>
+                <div>
+                @{
+                    //var select = ViewData["testing"] as SelectList;
+                    if ( Model.DegreeList !=null &&  Model.DegreeList.ToList().Count>0)
+                    {
+                        foreach (var item in  Model.DegreeList.ToList())
+                        { 
+                           <input type="checkbox" name="DegreeSelected"  value="@item.Value" @(Html.Raw(item.Selected ? "checked=\"checked\"" : "")) /> @item.Text  <br/>
+                        }
+                    }
+                 } 
+                 </div>
+                
             </div>
             <div class="form-group">
                 <label asp-for="Country" class="control-label"></label>
