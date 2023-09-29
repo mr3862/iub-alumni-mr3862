@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'iubalumni'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_54AFCDE3C02548CF95DEFD8859154FEB }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_86C53D4447C84EA89A10DBDC342149EC }}
           package: .
